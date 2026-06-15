@@ -24,37 +24,64 @@
     </div>
     <header>
         <nav>
-            <form action="/" method="POST">
-                <input type="text" name="query" id="search" placeholder="search" required>
-                <button>
-                    <ion-icon name="search"></ion-icon>
-                </button>
-            </form>
-            <div class="second-part-of-nav">
-                <div class="toggle-dark-mode-w">
-                    <img src="static/images/day-and-night.png" alt="toggle dark mode" class="toggle-dark-mode">
-                </div>
-                <div class="drop-down-w">
-                    <ion-icon name="chevron-down"></ion-icon>
-                </div>
+            <div>
+                <h1>Edu Resources</h1>
             </div>
+            <div><ion-icon name="person-circle-sharp"></ion-icon></div>
+            <div id="toggleBtn"><ion-icon name="menu-outline"></ion-icon></div>
         </nav>
-        <div class="menu">No menu available</div>
     </header>
-
-    <div class="inst">
-        <h1>A platform to provide academic notes</h1>
-    </div>
-
     <main>
-        {% for file in files %}
-        <a href="{{ file['file_path'] }}" target="_blank">
-            <div class="content">
-                <img src="{{ file['file_img'] }}" alt="{{ file['file_name'] }}">
+        <div class="hero1"></div>
+        <div class="welcome-note">
+            <p>👋 Welcome to <strong>Edu Resources</strong> — your trusted hub for learning materials, guides, and
+                tools. Explore, learn, and grow with us!</p>
+        </div>
+        <h2>Materials</h2>
+        <div class="hero2">
+            <div>
+                <div>10th</div>
+                <div>9th</div>
+                <div>12th</div>
             </div>
-        </a>
-        {% endfor %}
+            <div>
+                <div class="free-materials">Free Materials</div>
+                <div class="paid-materials">Paid Materials</div>
+            </div>
+        </div>
+        <div id="sidebar" class="sidebar">
+            <ul>
+                <a href=""><li>Profile</li></a>
+                <a href=""><li>Home</li></a>
+                <a href=""><li>Class 10th</li></a>
+                <a href=""><li>Class 9th</li></a>
+                <a href=""><li>Class 12th</li></a>
+                <a href=""><li>Social handle</li></a>
+                <a href=""><li>Support</li></a>
+                <a href=""><li>PDFs</li></a>
+                <a href=""><li>Purchased</li></a>
+        </div>
     </main>
+    <footer>
+
+        <div class="credits">
+            <strong>Founder: Neeraj Srivastava</strong><br>
+            <strong>Developed by <a href=""><em>Aadarsh Aaryan</em></a></strong>
+        </div>
+
+        <p>Contact the developer</p>
+
+        <div class="social">
+            <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
+            <a href="#"><ion-icon name="logo-whatsapp"></ion-icon></a>
+            <a href="#"><ion-icon name="logo-github"></ion-icon></a>
+        </div>
+
+        <p><a href="">Terms & Conditions</a></p>
+        <p>© 2026 Neeraj Srivastava. All rights reserved.</p>
+
+    </footer>
+
     <script src="{{ url_for('static', filename='css_and_js/script.js') }}"></script>
 </body>
 
