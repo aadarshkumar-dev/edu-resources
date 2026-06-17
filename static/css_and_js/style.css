@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@200..700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -9,9 +11,16 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1F2937;
 }
 
 /* -------------------------------------------------------------- notify ------------------------------------------------------------ */
+
+.msg_wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .notify {
     position: fixed;
@@ -106,9 +115,14 @@ header ion-icon:nth-child(1) {
 .hero1 {
     box-shadow: 0 3px 10px rgb(173, 173, 173);
     width: 95%;
-    height: 200px;
     margin: 40px auto;
     border-radius: 13px;
+    overflow: hidden;
+}
+
+.hero1 img {
+    width: 100%;
+    display: block;
 }
 
 main {
@@ -178,7 +192,11 @@ footer .social ion-icon:hover {
     border-radius: 13px;
     box-shadow: 0 3px 10px rgb(173, 173, 173);
     margin: 0 auto 30px auto;
-    color: rgb(183, 0, 255);
+    color: rgb(0, 191, 255);
+    font-family: "Stack Sans Headline", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
 }
 
 .sidebar {

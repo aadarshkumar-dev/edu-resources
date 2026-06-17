@@ -1,0 +1,160 @@
+* {
+    margin: 0;
+    padding: 0;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1F2937;
+}
+
+/* -------------------------------------------------------------- notify ------------------------------------------------------------ */
+
+.notify {
+    position: fixed;
+    top: 5px;
+    background-color: rgb(166, 0, 255);
+    height: 60px;
+    max-width: 320px;
+    border-radius: 18px;
+    padding: 5px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    z-index: 2000;
+}
+
+.msg_wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notify_come {
+    animation: notification_come 0.3s ease-in-out forwards;
+}
+
+.notify_go {
+    animation: notification_go 0.3s ease-in-out forwards;
+}
+
+@keyframes notification_come {
+    from {
+        opacity: 0;
+        transform: translateY(-60px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes notification_go {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-60px);
+    }
+}
+/* -------------------------------------------------------------- notify ------------------------------------------------------------ */
+
+
+.form-container {
+    width: 260px;
+    margin: 130px auto 0 auto;
+    padding: 40px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+    border-radius: 13px;
+    position: relative;
+    background: #fff;
+    z-index: 1;
+}
+
+.form-container::before,
+.form-container::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 15px;
+    background: linear-gradient(270deg, #ff00ff, #00ffff, #ff00ff);
+    background-size: 400% 400%;
+    z-index: -1;
+    animation: moveBorder 6s linear infinite;
+}
+
+.form-container::after {
+    filter: blur(8px);
+    opacity: 0.7;
+    animation: moveBorder 10s linear infinite reverse;
+}
+
+@keyframes moveBorder {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+p {
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+input {
+    height: 60px;
+    width: 270px;
+    border-radius: 50px;
+    border: none;
+    padding: 0 12px;
+}
+
+input:hover,
+button:hover{
+    box-shadow: 0 0 30px white;
+}
+
+button {
+    background-color: white;
+    height: 60px;
+    width: 294px;
+    border: none;
+    border-radius: 50px;
+}
+
+h2 {
+    text-align: center;
+}

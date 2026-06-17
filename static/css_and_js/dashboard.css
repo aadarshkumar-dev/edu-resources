@@ -1,0 +1,18 @@
+.btn-logout {
+  display: inline-block;
+  padding: 10px 20px;
+  background: crimson;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-logout:hover {
+  background: darkred;
+}
+
+body{
+    padding: 10px !important;
+}
