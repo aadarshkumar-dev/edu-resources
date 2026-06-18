@@ -5,27 +5,14 @@ import bcrypt
 app = Flask(__name__)
 app.secret_key = "jgfjiosfjksdfjosd"
 
-@app.route('/', methods=["GET", "POST"])
-def home():
-    return render_template('index.html')
-
 DB_NAME = "database.db"
-
-@app.route("/users")
-def show_users():
-    connection = sqlite3.connect(DB_NAME)
-    cursor = connection.cursor()
-    cursor.execute("SELECT id, username FROM users")
-    rows = cursor.fetchall()
-    connection.close()
-
-    return render_template("users.html", users=rows)
-
 
 # ------------------ DB Setup ------------------
 def init_db():
     connection = sqlite3.connect(DB_NAME)
     cursor = connection.cursor()
+
+    # Users table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,12 +20,43 @@ def init_db():
             password TEXT NOT NULL
         )
     """)
+
+    # Profiles table linked to users
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS profiles (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        name TEXT,
+        class TEXT,
+        board TEXT,
+        state TEXT,
+        gmail TEXT,
+        avatar_path TEXT,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+""")
+
     connection.commit()
     connection.close()
 
 init_db()
 
-# ------------------ Signup Route ------------------
+# ------------------ Home ------------------
+@app.route('/', methods=["GET", "POST"])
+def home():
+    return render_template('index.html')
+
+# ------------------ Show Users ------------------
+@app.route("/users")
+def show_users():
+    connection = sqlite3.connect(DB_NAME)
+    cursor = connection.cursor()
+    cursor.execute("SELECT id, username FROM users")
+    rows = cursor.fetchall()
+    connection.close()
+    return render_template("users.html", users=rows)
+
+# ------------------ Signup ------------------
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
@@ -67,18 +85,16 @@ def signup():
             flash("Username already exists. Try another.")
             return redirect(url_for("signup"))
 
-    # GET request → show signup form
     return render_template("signup.html")
 
-# ------------------ Login Route ------------------
-# ------------------ Login Route ------------------
+# ------------------ Login ------------------
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         username = request.form.get("username", "").strip().lower()
         password = request.form.get("password", "")
 
-        connection = sqlite3.connect(DB_NAME)  # ✅ use the same DB_NAME everywhere
+        connection = sqlite3.connect(DB_NAME)
         cursor = connection.cursor()
         cursor.execute("SELECT id, username, password FROM users WHERE username = ?", (username,))
         user = cursor.fetchone()
@@ -93,25 +109,57 @@ def login():
             flash("Invalid username or password.")
             return redirect(url_for("login"))
 
-    # GET request → show login form
     return render_template("login.html")
 
-
-@app.route("/dashboard")
+# ------------------ Dashboard ------------------
+@app.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
-    if "username" not in session:
+    if "user_id" not in session:
         flash("Please log in first.")
         return redirect(url_for("login"))
-    return render_template("dashboard.html", username=session['username'])
 
-# ------------------ Logout Route ------------------
+    user_id = session["user_id"]
+    connection = sqlite3.connect(DB_NAME)
+    cursor = connection.cursor()
+
+    if request.method == "POST":
+        name = request.form.get("name")
+        class_val = request.form.get("class")
+        board = request.form.get("board")
+        state = request.form.get("state")
+        gmail = request.form.get("gmail")
+        avatar_path = request.form.get("avatar_path")
+
+        cursor.execute("SELECT id FROM profiles WHERE user_id=?", (user_id,))
+        row = cursor.fetchone()
+
+        if row:
+            cursor.execute("""
+                UPDATE profiles
+                SET name=?, class=?, board=?, state=?, gmail=?, avatar_path=?
+                WHERE user_id=?
+            """, (name, class_val, board, state, gmail, avatar_path, user_id))
+        else:
+            cursor.execute("""
+                INSERT INTO profiles (user_id, name, class, board, state, gmail, avatar_path)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (user_id, name, class_val, board, state, gmail, avatar_path))
+
+        connection.commit()
+        flash("Profile updated successfully ✅")
+
+    cursor.execute("SELECT name, class, board, state, gmail, avatar_path FROM profiles WHERE user_id=?", (user_id,))
+    profile = cursor.fetchone()
+    connection.close()
+
+    return render_template("dashboard.html", username=session['username'], profile=profile)
+
+# ------------------ Logout ------------------
 @app.route("/logout")
 def logout():
     session.clear()
     flash("Logged out successfully.")
     return redirect(url_for("login"))
-
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

@@ -1,4 +1,4 @@
-let notify = document.getElementById("notify");
+const notify = document.getElementById("notify");
 
 notify.classList.remove("notify_go");
 notify.classList.add("notify_come");

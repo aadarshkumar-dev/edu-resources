@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css_and_js/dashboard.css') }}">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 
 <body>
@@ -21,11 +23,123 @@
         {% endif %}
         {% endwith %}
     </div>
-    <p>Name :- {{ username }}</p>
-    <br><br><br><br>
+
+    <form method="POST" action="{{ url_for('dashboard') }}">
+        <div class="cont">
+            <div class="items">
+                <div class="item">Profile</div>
+                <div class="edit item"><ion-icon name="create-outline"></ion-icon>Edit</div>
+            </div>
+
+            <!-- Avatar Circle -->
+            <div class="avatar-wrapper">
+                <img id="avatar" src="{{ profile[5] if profile else url_for('static', filename='images/default.png') }}"
+                    alt="Avatar" class="avatar-circle">
+            </div>
+
+            <!-- Hidden field to store avatar path -->
+            <input type="hidden" name="avatar_path" id="avatar_path"
+                value="{{ profile[5] if profile else url_for('static', filename='images/default.png') }}">
+
+
+            <!-- Gender Buttons -->
+            <div class="gender come-on-edit">
+                <div class="male">Male</div>
+                <div class="female">Female</div>
+            </div>
+
+            <div class="new-items">
+                <!-- Name -->
+                <div class="new-item">
+                    <div class="box-label-group">
+                        <span class="icon-wrapper"><ion-icon name="person-outline"></ion-icon></span>
+                        <span class="label-text">Name</span>
+                    </div>
+                    <span class="separator">:</span>
+                    <span class="value-text go-on-edit">{{ profile[0] if profile else '' }}</span>
+                    <span class="value-text come-on-edit">
+                        <input type="text" name="name" id="name" value="{{ profile[0] if profile else '' }}"
+                            maxlength="25" placeholder="max 25 chars">
+                    </span>
+                </div>
+
+                <!-- Class -->
+                <div class="new-item">
+                    <div class="box-label-group">
+                        <span class="icon-wrapper"><ion-icon name="school-outline"></ion-icon></span>
+                        <span class="label-text">Class</span>
+                    </div>
+                    <span class="separator">:</span>
+                    <span class="value-text go-on-edit">{{ profile[1] if profile else '' }}</span>
+                    <span class="value-text come-on-edit">
+                        <input type="text" name="class" id="class" value="{{ profile[1] if profile else '' }}"
+                            maxlength="25" placeholder="max 25 chars">
+                    </span>
+                </div>
+
+                <!-- Board -->
+                <div class="new-item">
+                    <div class="box-label-group">
+                        <span class="icon-wrapper"><ion-icon name="easel-outline"></ion-icon></span>
+                        <span class="label-text">Board</span>
+                    </div>
+                    <span class="separator">:</span>
+                    <span class="value-text go-on-edit">{{ profile[2] if profile else '' }}</span>
+                    <span class="value-text come-on-edit">
+                        <input type="text" name="board" id="board" value="{{ profile[2] if profile else '' }}"
+                            maxlength="25" placeholder="max 25 chars">
+                    </span>
+                </div>
+
+                <!-- State -->
+                <div class="new-item">
+                    <div class="box-label-group">
+                        <span class="icon-wrapper"><ion-icon name="business-outline"></ion-icon></span>
+                        <span class="label-text">State</span>
+                    </div>
+                    <span class="separator">:</span>
+                    <span class="value-text go-on-edit">{{ profile[3] if profile else '' }}</span>
+                    <span class="value-text come-on-edit">
+                        <input type="text" name="state" id="state" value="{{ profile[3] if profile else '' }}"
+                            maxlength="25" placeholder="max 25 chars">
+                    </span>
+                </div>
+
+                <!-- Gmail -->
+                <div class="new-item">
+                    <div class="box-label-group">
+                        <span class="icon-wrapper"><ion-icon name="mail-outline"></ion-icon></span>
+                        <span class="label-text">Gmail</span>
+                    </div>
+                    <span class="separator">:</span>
+                    <span class="value-text go-on-edit">{{ profile[4] if profile else '' }}</span>
+                    <span class="value-text come-on-edit">
+                        <input type="text" name="gmail" id="gmail" value="{{ profile[4] if profile else '' }}"
+                            maxlength="25" placeholder="max 25 chars">
+                    </span>
+                </div>
+            </div>
+
+            <button type="submit" class="submit come-on-edit">Submit</button>
+        </div>
+    </form>
+
     <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
 
-    <script src="{{ url_for('static', filename='css_and_js/notify.js') }}"></script>
+    <script>
+        function setAvatar(path) {
+            document.getElementById("avatar").src = path;
+            document.getElementById("avatar_path").value = path;
+        }
+        
+        document.querySelector(".male").addEventListener("click", () =>
+        setAvatar("{{ url_for('static', filename='images/male.png') }}"));
+        
+        document.querySelector(".female").addEventListener("click", () =>
+        setAvatar("{{ url_for('static', filename='images/female.png') }}"));
+        </script>
+        <script src="{{ url_for('static', filename='css_and_js/notify.js') }}"></script>
+        <script src="{{ url_for('static', filename='css_and_js/dashboard.js') }}"></script>
 </body>
 
 </html>
