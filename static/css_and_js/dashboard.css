@@ -227,3 +227,11 @@ body {
 .come-on-edit{
   display: none;
 }
+
+.home-back{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 1.3rem;
+  color: var(--text-dark);
+}
