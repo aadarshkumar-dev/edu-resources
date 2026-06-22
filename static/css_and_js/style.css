@@ -16,6 +16,7 @@ body {
     overflow-x: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #1F2937;
+    background: url("/static/images/WhatsApp Image 2026-06-17 at 7.20.51 PM.jpeg") center/cover no-repeat fixed;
 }
 
 /* -------------------------------------------------------------- notify ------------------------------------------------------------ */
@@ -292,7 +293,7 @@ ul {
     text-align: center;
 }
 
-.htanimate{
+.htanimate {
     transform: translateY(50px);
     opacity: 0;
     animation: animate 1s ease-in-out forwards;
